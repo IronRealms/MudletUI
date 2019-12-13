@@ -906,7 +906,17 @@ GUIframe.disable("top", true)</script>
 			<script>------
 --@Description The base namespace table for Iron Realms Entertainment
 ------
-IRE = IRE or {}</script>
+IRE = IRE or {}
+
+---------
+--Version
+---------
+IRE.version = IRE.version or {
+  display = "0.1.0",
+  major = 0,
+  minor = 1,
+  bugfix = 0
+}</script>
 			<eventHandlerList />
 			<ScriptGroup isActive="yes" isFolder="yes">
 				<name>IRE.gmcp</name>
@@ -927,11 +937,22 @@ IRE.gmcp.char = IRE.gmcp.char or {}</script>
 					<Script isActive="yes" isFolder="no">
 						<name>IRE.gmcp.char.items_add</name>
 						<packageName></packageName>
-						<script>function IRE.gmcp.char.items_add()
+						<script>-----
+--@Description Processes gmcp.Char.Items.Add, adding an item to the local room inventory or character inventory
+--@Event IRE.core.inventory.add Raised when the character inventory receives an item.
+-- Passes the item as defined by gmcp.Char.Items.Add.item as its argument.
+--@Event IRE.core.room.inventoryAdd Raised when the room inventory receives an item.
+-- Passes the item as defined by gmcp.Char.Items.Add.item as its argument.
+-----
+function IRE.gmcp.char.items_add()
 	if gmcp.Char.Items.Add.location == "inv" 
 	then
 		IRE.core.inventory.addItem(gmcp.Char.Items.Add.item)
     raiseEvent("IRE.core.inventory.add",gmcp.Char.Items.Add.item)
+  elseif gmcp.Char.Items.Add.location == "room"
+  then
+		IRE.core.room.addInventoryItem(gmcp.Char.Items.Add.item)
+    raiseEvent("IRE.core.room.inventoryAdd",gmcp.Char.Items.Add.item)
 	end
 end</script>
 						<eventHandlerList>
@@ -941,12 +962,21 @@ end</script>
 					<Script isActive="yes" isFolder="no">
 						<name>IRE.gmcp.char.items_received</name>
 						<packageName></packageName>
-						<script>function IRE.gmcp.char.items_received()
+						<script>-----
+--@Description Processes gmcp.Char.Items.List, setting the local room inventory or character inventory
+--@Event IRE.core.inventory.listReceived Raised when the character inventory list is processed
+--@Event IRE.core.room.inventoryReceived Raised when the room inventory list is processed
+-----
+function IRE.gmcp.char.items_received()
 	if gmcp.Char.Items.List.location == "inv" 
 	then
     IRE.core.inventory.processList(gmcp.Char.Items.List.items)
     raiseEvent("IRE.core.inventory.listReceived")
-  end
+  elseif gmcp.Char.Items.List.location == "room"
+  then
+		IRE.core.room.processInventoryList(gmcp.Char.Items.List.items)
+    raiseEvent("IRE.core.room.inventoryReceived")
+	end
 end</script>
 						<eventHandlerList>
 							<string>gmcp.Char.Items.List</string>
@@ -955,12 +985,23 @@ end</script>
 					<Script isActive="yes" isFolder="no">
 						<name>IRE.gmcp.char.items_Remove</name>
 						<packageName></packageName>
-						<script>function IRE.gmcp.char.items_Remove()
+						<script>-----
+--@Description Processes gmcp.Char.Items.Remove, removing an item from the local room inventory or character inventory
+--@Event IRE.core.inventory.remove Raised when an item is removed from character inventory.
+-- Passes the item as defined by gmcp.Char.Items.Remove.item as its argument.
+--@Event IRE.core.room.inventoryRemove Raised when an item is removed from the room inventory.
+-- Passes the item as defined by gmcp.Char.Items.Remove.item as its argument.
+-----
+function IRE.gmcp.char.items_Remove()
 	if gmcp.Char.Items.Remove.location == "inv"
   then
     IRE.core.inventory.removeItem(gmcp.Char.Items.Remove.item)
     raiseEvent("IRE.core.inventory.remove",gmcp.Char.Items.Remove.item)
-  end
+  elseif gmcp.Char.Items.Add.location == "room"
+  then
+		IRE.core.room.removeInventoryItem(gmcp.Char.Items.Remove.item)
+    raiseEvent("IRE.core.room.inventoryRemove",gmcp.Char.Items.Remove.item)
+	end
 end</script>
 						<eventHandlerList>
 							<string>gmcp.Char.Items.Remove</string>
@@ -990,7 +1031,7 @@ IRE.core = IRE.core or {}
 IRE.core.inventory = IRE.core.inventory or {}
 
 -----
---@Description The actual inventory table synced with GMCP.char.items for local access
+--@Description The actual inventory table synced with GMCP.Char.Items for local access
 -----
 IRE.core.inventory.list = IRE.core.inventory.list or {}
 
@@ -1004,7 +1045,6 @@ IRE.core.inventory.list = IRE.core.inventory.list or {}
 -----
 --@Description Resets the inventory list and adds all items to it
 --@Param itemList The item list from gmcp.Char.Items.List.items
---@Events Raises IRE.core.inventory when it is completed.
 -----
 function IRE.core.inventory.processList(itemList)
   IRE.core.inventory.list = {}
@@ -1042,6 +1082,54 @@ end</script>
 							<string>IRE.core.login</string>
 						</eventHandlerList>
 					</Script>
+				</ScriptGroup>
+				<ScriptGroup isActive="yes" isFolder="yes">
+					<name>IRE.core.room</name>
+					<packageName></packageName>
+					<script>------
+--@Description The core room module
+------
+IRE.core.room = IRE.core.room or {}
+
+-----
+--@Description The room inventory table synced with GMCP.Char.Items for local access
+-----
+IRE.core.room.inventory = IRE.core.room.inventory or {}
+
+-----
+--Events
+--IRE.core.room.inventoryReceived signals a change in the room inventory.
+--IRE.core.room.inventoryAdd signals an addition to the room inventory. Passes the item as the argument.
+--IRE.core.room.inventoryRemove signals a removal from the room inventory. Passes the item as the argument.
+-----
+
+-----
+--@Description Resets the room inventory list and adds all items to it
+--@Param itemList The item list from gmcp.Char.Items.List.items
+-----
+function IRE.core.room.processInventoryList(itemList)
+  IRE.core.room.inventory = {}
+  for index, item in pairs(itemList) do
+    IRE.core.room.addInventoryItem(item)
+  end
+end
+
+-----
+--@Description Adds an item to the room inventory list
+--@Param item The item to add to the list
+-----
+function IRE.core.room.addInventoryItem(item)
+  IRE.core.room.inventory[item.id] = item
+end
+
+-----
+--@Description Removes an item from the room inventory list
+--@Param item The item to remove from the list
+-----
+function IRE.core.room.removeInventoryItem(item)
+  IRE.core.room.inventory[item.id] = nil
+end</script>
+					<eventHandlerList />
 				</ScriptGroup>
 			</ScriptGroup>
 		</ScriptGroup>
