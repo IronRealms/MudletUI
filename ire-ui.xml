@@ -1,7 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE MudletPackage>
 <MudletPackage version="1.001">
-	<TriggerPackage />
+	<TriggerPackage>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>IRE</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>IRE.core</name>
+				<script></script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList />
+				<regexCodePropertyList />
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>password trigger</name>
+					<script>-----
+--@Description Raises a login event upon logging in successfully
+-----
+raiseEvent("IRE.core.login")</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Password correct. Welcome to Imperian.</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>2</integer>
+					</regexCodePropertyList>
+				</Trigger>
+			</TriggerGroup>
+		</TriggerGroup>
+	</TriggerPackage>
 	<TimerPackage />
 	<AliasPackage />
 	<ActionPackage />
@@ -844,6 +900,239 @@ GUIframe.addWindow(charstats, charstats.name, "bottom")
 GUIframe.disable("top", true)</script>
 			<eventHandlerList />
 		</Script>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>IRE</name>
+			<packageName></packageName>
+			<script>------
+--@Description The base namespace table for Iron Realms Entertainment
+------
+IRE = IRE or {}
+
+---------
+--Version
+---------
+IRE.version = IRE.version or {
+  display = "0.1.0",
+  major = 0,
+  minor = 1,
+  bugfix = 0
+}</script>
+			<eventHandlerList />
+			<ScriptGroup isActive="yes" isFolder="yes">
+				<name>IRE.gmcp</name>
+				<packageName></packageName>
+				<script>------
+--@Description The table for gmcp handling for iron realms games
+------
+IRE.gmcp = IRE.gmcp or {}</script>
+				<eventHandlerList />
+				<ScriptGroup isActive="yes" isFolder="yes">
+					<name>IRE.gmcp.char</name>
+					<packageName></packageName>
+					<script>------
+--@Description The table for gmcp character data handling
+------
+IRE.gmcp.char = IRE.gmcp.char or {}</script>
+					<eventHandlerList />
+					<Script isActive="yes" isFolder="no">
+						<name>IRE.gmcp.char.items_add</name>
+						<packageName></packageName>
+						<script>-----
+--@Description Processes gmcp.Char.Items.Add, adding an item to the local room inventory or character inventory
+--@Event IRE.core.inventory.add Raised when the character inventory receives an item.
+-- Passes the item as defined by gmcp.Char.Items.Add.item as its argument.
+--@Event IRE.core.room.inventoryAdd Raised when the room inventory receives an item.
+-- Passes the item as defined by gmcp.Char.Items.Add.item as its argument.
+-----
+function IRE.gmcp.char.items_add()
+	if gmcp.Char.Items.Add.location == "inv" 
+	then
+		IRE.core.inventory.addItem(gmcp.Char.Items.Add.item)
+    raiseEvent("IRE.core.inventory.add",gmcp.Char.Items.Add.item)
+  elseif gmcp.Char.Items.Add.location == "room"
+  then
+		IRE.core.room.addInventoryItem(gmcp.Char.Items.Add.item)
+    raiseEvent("IRE.core.room.inventoryAdd",gmcp.Char.Items.Add.item)
+	end
+end</script>
+						<eventHandlerList>
+							<string>gmcp.Char.Items.Add</string>
+						</eventHandlerList>
+					</Script>
+					<Script isActive="yes" isFolder="no">
+						<name>IRE.gmcp.char.items_received</name>
+						<packageName></packageName>
+						<script>-----
+--@Description Processes gmcp.Char.Items.List, setting the local room inventory or character inventory
+--@Event IRE.core.inventory.listReceived Raised when the character inventory list is processed
+--@Event IRE.core.room.inventoryReceived Raised when the room inventory list is processed
+-----
+function IRE.gmcp.char.items_received()
+	if gmcp.Char.Items.List.location == "inv" 
+	then
+    IRE.core.inventory.processList(gmcp.Char.Items.List.items)
+    raiseEvent("IRE.core.inventory.listReceived")
+  elseif gmcp.Char.Items.List.location == "room"
+  then
+		IRE.core.room.processInventoryList(gmcp.Char.Items.List.items)
+    raiseEvent("IRE.core.room.inventoryReceived")
+	end
+end</script>
+						<eventHandlerList>
+							<string>gmcp.Char.Items.List</string>
+						</eventHandlerList>
+					</Script>
+					<Script isActive="yes" isFolder="no">
+						<name>IRE.gmcp.char.items_Remove</name>
+						<packageName></packageName>
+						<script>-----
+--@Description Processes gmcp.Char.Items.Remove, removing an item from the local room inventory or character inventory
+--@Event IRE.core.inventory.remove Raised when an item is removed from character inventory.
+-- Passes the item as defined by gmcp.Char.Items.Remove.item as its argument.
+--@Event IRE.core.room.inventoryRemove Raised when an item is removed from the room inventory.
+-- Passes the item as defined by gmcp.Char.Items.Remove.item as its argument.
+-----
+function IRE.gmcp.char.items_Remove()
+	if gmcp.Char.Items.Remove.location == "inv"
+  then
+    IRE.core.inventory.removeItem(gmcp.Char.Items.Remove.item)
+    raiseEvent("IRE.core.inventory.remove",gmcp.Char.Items.Remove.item)
+  elseif gmcp.Char.Items.Add.location == "room"
+  then
+		IRE.core.room.removeInventoryItem(gmcp.Char.Items.Remove.item)
+    raiseEvent("IRE.core.room.inventoryRemove",gmcp.Char.Items.Remove.item)
+	end
+end</script>
+						<eventHandlerList>
+							<string>gmcp.Char.Items.Remove</string>
+						</eventHandlerList>
+					</Script>
+				</ScriptGroup>
+			</ScriptGroup>
+			<ScriptGroup isActive="yes" isFolder="yes">
+				<name>IRE.core</name>
+				<packageName></packageName>
+				<script>------
+--@Description The core module for common IRE functionality
+------
+IRE.core = IRE.core or {}
+
+-----
+--Events
+--IRE.core.login Event thrown on character login
+-----</script>
+				<eventHandlerList />
+				<ScriptGroup isActive="yes" isFolder="yes">
+					<name>IRE.core.inventory</name>
+					<packageName></packageName>
+					<script>------
+--@Description The core inventory module
+------
+IRE.core.inventory = IRE.core.inventory or {}
+
+-----
+--@Description The actual inventory table synced with GMCP.Char.Items for local access
+-----
+IRE.core.inventory.list = IRE.core.inventory.list or {}
+
+-----
+--Events
+--IRE.core.inventory.listReceived signals a change in the inventory.
+--IRE.core.inventory.add signals an addition to the inventory. Passes the item as the argument.
+--IRE.core.inventory.remove signals a removal from the inventory. Passes the item as the argument.
+-----
+
+-----
+--@Description Resets the inventory list and adds all items to it
+--@Param itemList The item list from gmcp.Char.Items.List.items
+-----
+function IRE.core.inventory.processList(itemList)
+  IRE.core.inventory.list = {}
+  for index, item in pairs(itemList) do
+    IRE.core.inventory.addItem(item)
+  end
+end
+
+-----
+--@Description Adds an item to the inventory list
+--@Param item The item to add to the list
+-----
+function IRE.core.inventory.addItem(item)
+  IRE.core.inventory.list[item.id] = item
+end
+
+-----
+--@Description Removes an item from the inventory list
+--@Param item The item to remove from the list
+-----
+function IRE.core.inventory.removeItem(item)
+  IRE.core.inventory.list[item.id] = nil
+end</script>
+					<eventHandlerList />
+					<Script isActive="yes" isFolder="no">
+						<name>IRE.core.inventory.login</name>
+						<packageName></packageName>
+						<script>-----
+--@Description Sends the gmcp inventory request at login
+-----
+function IRE.core.inventory.login()
+  sendGMCP("Char.Items.Inv")
+end</script>
+						<eventHandlerList>
+							<string>IRE.core.login</string>
+						</eventHandlerList>
+					</Script>
+				</ScriptGroup>
+				<ScriptGroup isActive="yes" isFolder="yes">
+					<name>IRE.core.room</name>
+					<packageName></packageName>
+					<script>------
+--@Description The core room module
+------
+IRE.core.room = IRE.core.room or {}
+
+-----
+--@Description The room inventory table synced with GMCP.Char.Items for local access
+-----
+IRE.core.room.inventory = IRE.core.room.inventory or {}
+
+-----
+--Events
+--IRE.core.room.inventoryReceived signals a change in the room inventory.
+--IRE.core.room.inventoryAdd signals an addition to the room inventory. Passes the item as the argument.
+--IRE.core.room.inventoryRemove signals a removal from the room inventory. Passes the item as the argument.
+-----
+
+-----
+--@Description Resets the room inventory list and adds all items to it
+--@Param itemList The item list from gmcp.Char.Items.List.items
+-----
+function IRE.core.room.processInventoryList(itemList)
+  IRE.core.room.inventory = {}
+  for index, item in pairs(itemList) do
+    IRE.core.room.addInventoryItem(item)
+  end
+end
+
+-----
+--@Description Adds an item to the room inventory list
+--@Param item The item to add to the list
+-----
+function IRE.core.room.addInventoryItem(item)
+  IRE.core.room.inventory[item.id] = item
+end
+
+-----
+--@Description Removes an item from the room inventory list
+--@Param item The item to remove from the list
+-----
+function IRE.core.room.removeInventoryItem(item)
+  IRE.core.room.inventory[item.id] = nil
+end</script>
+					<eventHandlerList />
+				</ScriptGroup>
+			</ScriptGroup>
+		</ScriptGroup>
 	</ScriptPackage>
 	<KeyPackage />
 	<HelpPackage>
