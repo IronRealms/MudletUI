@@ -1134,7 +1134,134 @@ end</script>
 			</ScriptGroup>
 		</ScriptGroup>
 	</ScriptPackage>
-	<KeyPackage />
+
+	<KeyPackage>
+		<KeyGroup isActive="yes" isFolder="yes">
+			<name>NumpadNavigation</name>
+			<packageName></packageName>
+			<script></script>
+			<command></command>
+			<keyCode>-1</keyCode>
+			<keyModifier>-1</keyModifier>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 1</name>
+				<packageName></packageName>
+				<script>send("sw")
+raiseEvent("IRE.NumpadNavigation.attemptMove","sw")</script>
+				<command></command>
+				<keyCode>49</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 2</name>
+				<packageName></packageName>
+				<script>send("s")
+raiseEvent("IRE.NumpadNavigation.attemptMove","s")</script>
+				<command></command>
+				<keyCode>50</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 3</name>
+				<packageName></packageName>
+				<script>send("se")
+raiseEvent("IRE.NumpadNavigation.attemptMove","se")</script>
+				<command></command>
+				<keyCode>51</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 4</name>
+				<packageName></packageName>
+				<script>send("w")
+raiseEvent("IRE.NumpadNavigation.attemptMove","w")</script>
+				<command></command>
+				<keyCode>52</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 5</name>
+				<packageName></packageName>
+				<script>send("look")
+raiseEvent("IRE.NumpadNavigation.attemptLook")</script>
+				<command></command>
+				<keyCode>53</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 6</name>
+				<packageName></packageName>
+				<script>send("e")
+raiseEvent("IRE.NumpadNavigation.attemptMove","e")</script>
+				<command></command>
+				<keyCode>54</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 7</name>
+				<packageName></packageName>
+				<script>send("nw")
+raiseEvent("IRE.NumpadNavigation.attemptMove","nw")</script>
+				<command></command>
+				<keyCode>55</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 8</name>
+				<packageName></packageName>
+				<script>send("n")
+raiseEvent("IRE.NumpadNavigation.attemptMove","n")</script>
+				<command></command>
+				<keyCode>56</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 9</name>
+				<packageName></packageName>
+				<script>send("ne")
+raiseEvent("IRE.NumpadNavigation.attemptMove","ne")</script>
+				<command></command>
+				<keyCode>57</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding +</name>
+				<packageName></packageName>
+				<script>send("up")
+raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
+				<command></command>
+				<keyCode>43</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding -</name>
+				<packageName></packageName>
+				<script>send("down")
+raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
+				<command></command>
+				<keyCode>45</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding /</name>
+				<packageName></packageName>
+				<script>send("in")
+raiseEvent("IRE.NumpadNavigation.attemptMove","in")</script>
+				<command></command>
+				<keyCode>47</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding *</name>
+				<packageName></packageName>
+				<script>send("out")
+raiseEvent("IRE.NumpadNavigation.attemptMove","out")</script>
+				<command></command>
+				<keyCode>42</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+		</KeyGroup>
+	</KeyPackage>
 	<HelpPackage>
 		<helpURL></helpURL>
 	</HelpPackage>
