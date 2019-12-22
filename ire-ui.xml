@@ -1020,7 +1020,8 @@ IRE.core = IRE.core or {}
 -----
 --Events
 --IRE.core.login Event thrown on character login
------</script>
+-----
+IRE.core.login = IRE.core.login or {}</script>
 				<eventHandlerList />
 				<ScriptGroup isActive="yes" isFolder="yes">
 					<name>IRE.core.inventory</name>
@@ -1041,6 +1042,10 @@ IRE.core.inventory.list = IRE.core.inventory.list or {}
 --IRE.core.inventory.add signals an addition to the inventory. Passes the item as the argument.
 --IRE.core.inventory.remove signals a removal from the inventory. Passes the item as the argument.
 -----
+
+IRE.core.inventory.listReceived = IRE.core.inventory.listReceived or {}
+IRE.core.inventory.add = IRE.core.inventory.add or {}
+IRE.core.inventory.remove = IRE.core.inventory.remove or {}
 
 -----
 --@Description Resets the inventory list and adds all items to it
@@ -1102,6 +1107,9 @@ IRE.core.room.inventory = IRE.core.room.inventory or {}
 --IRE.core.room.inventoryAdd signals an addition to the room inventory. Passes the item as the argument.
 --IRE.core.room.inventoryRemove signals a removal from the room inventory. Passes the item as the argument.
 -----
+IRE.core.room.inventoryReceived = IRE.core.room.inventoryReceived or {}
+IRE.core.room.inventoryAdd = IRE.core.room.inventoryAdd or {}
+IRE.core.room.inventoryRemove = IRE.core.room.inventoryRemove or {}
 
 -----
 --@Description Resets the room inventory list and adds all items to it
@@ -1134,7 +1142,6 @@ end</script>
 			</ScriptGroup>
 		</ScriptGroup>
 	</ScriptPackage>
-
 	<KeyPackage>
 		<KeyGroup isActive="yes" isFolder="yes">
 			<name>NumpadNavigation</name>
@@ -1227,8 +1234,8 @@ raiseEvent("IRE.NumpadNavigation.attemptMove","ne")</script>
 			<Key isActive="yes" isFolder="no">
 				<name>Keybinding +</name>
 				<packageName></packageName>
-				<script>send("up")
-raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
+				<script>send("down")
+raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
 				<command></command>
 				<keyCode>43</keyCode>
 				<keyModifier>536870912</keyModifier>
@@ -1236,8 +1243,8 @@ raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
 			<Key isActive="yes" isFolder="no">
 				<name>Keybinding -</name>
 				<packageName></packageName>
-				<script>send("down")
-raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
+				<script>send("up")
+raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
 				<command></command>
 				<keyCode>45</keyCode>
 				<keyModifier>536870912</keyModifier>
