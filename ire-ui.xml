@@ -1142,6 +1142,10 @@ end</script>
 			</ScriptGroup>
 		</ScriptGroup>
 	</ScriptPackage>
+<<<<<<< HEAD
+=======
+
+>>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
 	<KeyPackage>
 		<KeyGroup isActive="yes" isFolder="yes">
 			<name>NumpadNavigation</name>
@@ -1234,8 +1238,13 @@ raiseEvent("IRE.NumpadNavigation.attemptMove","ne")</script>
 			<Key isActive="yes" isFolder="no">
 				<name>Keybinding +</name>
 				<packageName></packageName>
+<<<<<<< HEAD
 				<script>send("down")
 raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
+=======
+				<script>send("up")
+raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
+>>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
 				<command></command>
 				<keyCode>43</keyCode>
 				<keyModifier>536870912</keyModifier>
@@ -1243,8 +1252,13 @@ raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
 			<Key isActive="yes" isFolder="no">
 				<name>Keybinding -</name>
 				<packageName></packageName>
+<<<<<<< HEAD
 				<script>send("up")
 raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
+=======
+				<script>send("down")
+raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
+>>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
 				<command></command>
 				<keyCode>45</keyCode>
 				<keyModifier>536870912</keyModifier>
