@@ -1020,7 +1020,8 @@ IRE.core = IRE.core or {}
 -----
 --Events
 --IRE.core.login Event thrown on character login
------</script>
+-----
+IRE.core.login = IRE.core.login or {}</script>
 				<eventHandlerList />
 				<ScriptGroup isActive="yes" isFolder="yes">
 					<name>IRE.core.inventory</name>
@@ -1041,6 +1042,10 @@ IRE.core.inventory.list = IRE.core.inventory.list or {}
 --IRE.core.inventory.add signals an addition to the inventory. Passes the item as the argument.
 --IRE.core.inventory.remove signals a removal from the inventory. Passes the item as the argument.
 -----
+
+IRE.core.inventory.listReceived = IRE.core.inventory.listReceived or {}
+IRE.core.inventory.add = IRE.core.inventory.add or {}
+IRE.core.inventory.remove = IRE.core.inventory.remove or {}
 
 -----
 --@Description Resets the inventory list and adds all items to it
@@ -1102,6 +1107,9 @@ IRE.core.room.inventory = IRE.core.room.inventory or {}
 --IRE.core.room.inventoryAdd signals an addition to the room inventory. Passes the item as the argument.
 --IRE.core.room.inventoryRemove signals a removal from the room inventory. Passes the item as the argument.
 -----
+IRE.core.room.inventoryReceived = IRE.core.room.inventoryReceived or {}
+IRE.core.room.inventoryAdd = IRE.core.room.inventoryAdd or {}
+IRE.core.room.inventoryRemove = IRE.core.room.inventoryRemove or {}
 
 -----
 --@Description Resets the room inventory list and adds all items to it
@@ -1134,7 +1142,147 @@ end</script>
 			</ScriptGroup>
 		</ScriptGroup>
 	</ScriptPackage>
-	<KeyPackage />
+<<<<<<< HEAD
+=======
+
+>>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
+	<KeyPackage>
+		<KeyGroup isActive="yes" isFolder="yes">
+			<name>NumpadNavigation</name>
+			<packageName></packageName>
+			<script></script>
+			<command></command>
+			<keyCode>-1</keyCode>
+			<keyModifier>-1</keyModifier>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 1</name>
+				<packageName></packageName>
+				<script>send("sw")
+raiseEvent("IRE.NumpadNavigation.attemptMove","sw")</script>
+				<command></command>
+				<keyCode>49</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 2</name>
+				<packageName></packageName>
+				<script>send("s")
+raiseEvent("IRE.NumpadNavigation.attemptMove","s")</script>
+				<command></command>
+				<keyCode>50</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 3</name>
+				<packageName></packageName>
+				<script>send("se")
+raiseEvent("IRE.NumpadNavigation.attemptMove","se")</script>
+				<command></command>
+				<keyCode>51</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 4</name>
+				<packageName></packageName>
+				<script>send("w")
+raiseEvent("IRE.NumpadNavigation.attemptMove","w")</script>
+				<command></command>
+				<keyCode>52</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 5</name>
+				<packageName></packageName>
+				<script>send("look")
+raiseEvent("IRE.NumpadNavigation.attemptLook")</script>
+				<command></command>
+				<keyCode>53</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 6</name>
+				<packageName></packageName>
+				<script>send("e")
+raiseEvent("IRE.NumpadNavigation.attemptMove","e")</script>
+				<command></command>
+				<keyCode>54</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 7</name>
+				<packageName></packageName>
+				<script>send("nw")
+raiseEvent("IRE.NumpadNavigation.attemptMove","nw")</script>
+				<command></command>
+				<keyCode>55</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 8</name>
+				<packageName></packageName>
+				<script>send("n")
+raiseEvent("IRE.NumpadNavigation.attemptMove","n")</script>
+				<command></command>
+				<keyCode>56</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding 9</name>
+				<packageName></packageName>
+				<script>send("ne")
+raiseEvent("IRE.NumpadNavigation.attemptMove","ne")</script>
+				<command></command>
+				<keyCode>57</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding +</name>
+				<packageName></packageName>
+<<<<<<< HEAD
+				<script>send("down")
+raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
+=======
+				<script>send("up")
+raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
+>>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
+				<command></command>
+				<keyCode>43</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding -</name>
+				<packageName></packageName>
+<<<<<<< HEAD
+				<script>send("up")
+raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
+=======
+				<script>send("down")
+raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
+>>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
+				<command></command>
+				<keyCode>45</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding /</name>
+				<packageName></packageName>
+				<script>send("in")
+raiseEvent("IRE.NumpadNavigation.attemptMove","in")</script>
+				<command></command>
+				<keyCode>47</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+			<Key isActive="yes" isFolder="no">
+				<name>Keybinding *</name>
+				<packageName></packageName>
+				<script>send("out")
+raiseEvent("IRE.NumpadNavigation.attemptMove","out")</script>
+				<command></command>
+				<keyCode>42</keyCode>
+				<keyModifier>536870912</keyModifier>
+			</Key>
+		</KeyGroup>
+	</KeyPackage>
 	<HelpPackage>
 		<helpURL></helpURL>
 	</HelpPackage>
