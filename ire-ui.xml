@@ -3,13 +3,13 @@
 <MudletPackage version="1.001">
 	<TriggerPackage>
 		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-			<name>IRE</name>
+			<name>ire-ui</name>
 			<script></script>
 			<triggerType>0</triggerType>
 			<conditonLineDelta>0</conditonLineDelta>
 			<mStayOpen>0</mStayOpen>
 			<mCommand></mCommand>
-			<packageName></packageName>
+			<packageName>ire-ui</packageName>
 			<mFgColor>#ff0000</mFgColor>
 			<mBgColor>#ffff00</mBgColor>
 			<mSoundFile></mSoundFile>
@@ -18,7 +18,7 @@
 			<regexCodeList />
 			<regexCodePropertyList />
 			<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-				<name>IRE.core</name>
+				<name>IRE</name>
 				<script></script>
 				<triggerType>0</triggerType>
 				<conditonLineDelta>0</conditonLineDelta>
@@ -32,12 +32,9 @@
 				<colorTriggerBgColor>#000000</colorTriggerBgColor>
 				<regexCodeList />
 				<regexCodePropertyList />
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>password trigger</name>
-					<script>-----
---@Description Raises a login event upon logging in successfully
------
-raiseEvent("IRE.core.login")</script>
+				<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>IRE.core</name>
+					<script></script>
 					<triggerType>0</triggerType>
 					<conditonLineDelta>0</conditonLineDelta>
 					<mStayOpen>0</mStayOpen>
@@ -48,13 +45,38 @@ raiseEvent("IRE.core.login")</script>
 					<mSoundFile></mSoundFile>
 					<colorTriggerFgColor>#000000</colorTriggerFgColor>
 					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>Password correct. Welcome to Imperian.</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>2</integer>
-					</regexCodePropertyList>
-				</Trigger>
+					<regexCodeList />
+					<regexCodePropertyList />
+					<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+						<name>Login Trigger</name>
+						<script>-----
+--@Description Raises a login event upon logging in successfully
+-----
+raiseEvent("IRE.core.login")
+
+-----
+--@Description Enabling game specific elements
+-----</script>
+						<triggerType>0</triggerType>
+						<conditonLineDelta>0</conditonLineDelta>
+						<mStayOpen>0</mStayOpen>
+						<mCommand></mCommand>
+						<packageName></packageName>
+						<mFgColor>#ff0000</mFgColor>
+						<mBgColor>#ffff00</mBgColor>
+						<mSoundFile></mSoundFile>
+						<colorTriggerFgColor>#000000</colorTriggerFgColor>
+						<colorTriggerBgColor>#000000</colorTriggerBgColor>
+						<regexCodeList>
+							<string>Password correct. Welcome to</string>
+							<string>^Password correct. Welcome to (\w+).$</string>
+						</regexCodeList>
+						<regexCodePropertyList>
+							<integer>2</integer>
+							<integer>1</integer>
+						</regexCodePropertyList>
+					</Trigger>
+				</TriggerGroup>
 			</TriggerGroup>
 		</TriggerGroup>
 	</TriggerPackage>
@@ -62,10 +84,15 @@ raiseEvent("IRE.core.login")</script>
 	<AliasPackage />
 	<ActionPackage />
 	<ScriptPackage>
-		<Script isActive="yes" isFolder="no">
-			<name>Drag and Drop GUI Framework</name>
-			<packageName></packageName>
-			<script>-- Jor'Mox's GUIframe Script
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>ire-ui</name>
+			<packageName>ire-ui</packageName>
+			<script></script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>Drag and Drop GUI Framework</name>
+				<packageName></packageName>
+				<script>-- Jor'Mox's GUIframe Script
 -- 10/02/2018
 -- v1.3.3
 
@@ -766,12 +793,12 @@ function GUIframe.eventHandler(event,...)
 end
 
 registerAnonymousEventHandler("sysWindowResizeEvent","GUIframe.eventHandler")</script>
-			<eventHandlerList />
-		</Script>
-		<Script isActive="yes" isFolder="no">
-			<name>Barebones IRE framework</name>
-			<packageName></packageName>
-			<script>registerAnonymousEventHandler("sysLoadEvent", "GUIframe.loadSettings")
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>Barebones IRE framework</name>
+				<packageName></packageName>
+				<script>registerAnonymousEventHandler("sysLoadEvent", "GUIframe.loadSettings")
 registerAnonymousEventHandler("sysExitEvent", "GUIframe.saveSettings")
 local mainW, mainH = getMainWindowSize()
 local halfW, halfH = math.floor(mainW / 2), math.floor(mainH / 2)
@@ -803,7 +830,7 @@ GUIframe.configs =
     borderOffset = 5,
   }
 mapper = Geyser.Mapper:new({name = "myMapper"})
-chat = Geyser.MiniConsole:new({name = "myChat"})
+chat = Geyser.MiniConsole:new({name = "Chat", autoWrap = true, color = "black"})
 characterinfo =
   Geyser.Label:new(
     {
@@ -876,16 +903,16 @@ quests =
       message = "&lt;center&gt;Quests go here&lt;/center&gt;",
     }
   )
-charstats =
+vitals =
   Geyser.Label:new(
     {
-      name = "Character Stats",
-      color = "grey",
+      name = "Vitals",
+      color = "black",
       x = 0,
       y = 0,
       width = 0,
       height = 0,
-      message = "&lt;center&gt;Character stats go here&lt;/center&gt;",
+--      message = "&lt;center&gt;Character stats go here&lt;/center&gt;",
     }
   )
 GUIframe.addWindow(mapper, "Map", "topleft")
@@ -896,14 +923,14 @@ GUIframe.addWindow(roominfo, "Room info", "topright")
 GUIframe.addWindow(online, "Online", "topright")
 GUIframe.addWindow(quests, "Quests", "bottomright")
 GUIframe.addWindow(chat, "Chat", "bottomright")
-GUIframe.addWindow(charstats, charstats.name, "bottom")
+GUIframe.addWindow(vitals, "Vitals", "bottom")
 GUIframe.disable("top", true)</script>
-			<eventHandlerList />
-		</Script>
-		<ScriptGroup isActive="yes" isFolder="yes">
-			<name>IRE</name>
-			<packageName></packageName>
-			<script>------
+				<eventHandlerList />
+			</Script>
+			<ScriptGroup isActive="yes" isFolder="yes">
+				<name>IRE</name>
+				<packageName></packageName>
+				<script>------
 --@Description The base namespace table for Iron Realms Entertainment
 ------
 IRE = IRE or {}
@@ -917,27 +944,27 @@ IRE.version = IRE.version or {
   minor = 1,
   bugfix = 0
 }</script>
-			<eventHandlerList />
-			<ScriptGroup isActive="yes" isFolder="yes">
-				<name>IRE.gmcp</name>
-				<packageName></packageName>
-				<script>------
+				<eventHandlerList />
+				<ScriptGroup isActive="yes" isFolder="yes">
+					<name>IRE.gmcp</name>
+					<packageName></packageName>
+					<script>------
 --@Description The table for gmcp handling for iron realms games
 ------
 IRE.gmcp = IRE.gmcp or {}</script>
-				<eventHandlerList />
-				<ScriptGroup isActive="yes" isFolder="yes">
-					<name>IRE.gmcp.char</name>
-					<packageName></packageName>
-					<script>------
+					<eventHandlerList />
+					<ScriptGroup isActive="yes" isFolder="yes">
+						<name>IRE.gmcp.char</name>
+						<packageName></packageName>
+						<script>------
 --@Description The table for gmcp character data handling
 ------
 IRE.gmcp.char = IRE.gmcp.char or {}</script>
-					<eventHandlerList />
-					<Script isActive="yes" isFolder="no">
-						<name>IRE.gmcp.char.items_add</name>
-						<packageName></packageName>
-						<script>-----
+						<eventHandlerList />
+						<Script isActive="yes" isFolder="no">
+							<name>IRE.gmcp.char.items_add</name>
+							<packageName></packageName>
+							<script>-----
 --@Description Processes gmcp.Char.Items.Add, adding an item to the local room inventory or character inventory
 --@Event IRE.core.inventory.add Raised when the character inventory receives an item.
 -- Passes the item as defined by gmcp.Char.Items.Add.item as its argument.
@@ -955,14 +982,14 @@ function IRE.gmcp.char.items_add()
     raiseEvent("IRE.core.room.inventoryAdd",gmcp.Char.Items.Add.item)
 	end
 end</script>
-						<eventHandlerList>
-							<string>gmcp.Char.Items.Add</string>
-						</eventHandlerList>
-					</Script>
-					<Script isActive="yes" isFolder="no">
-						<name>IRE.gmcp.char.items_received</name>
-						<packageName></packageName>
-						<script>-----
+							<eventHandlerList>
+								<string>gmcp.Char.Items.Add</string>
+							</eventHandlerList>
+						</Script>
+						<Script isActive="yes" isFolder="no">
+							<name>IRE.gmcp.char.items_received</name>
+							<packageName></packageName>
+							<script>-----
 --@Description Processes gmcp.Char.Items.List, setting the local room inventory or character inventory
 --@Event IRE.core.inventory.listReceived Raised when the character inventory list is processed
 --@Event IRE.core.room.inventoryReceived Raised when the room inventory list is processed
@@ -978,14 +1005,14 @@ function IRE.gmcp.char.items_received()
     raiseEvent("IRE.core.room.inventoryReceived")
 	end
 end</script>
-						<eventHandlerList>
-							<string>gmcp.Char.Items.List</string>
-						</eventHandlerList>
-					</Script>
-					<Script isActive="yes" isFolder="no">
-						<name>IRE.gmcp.char.items_Remove</name>
-						<packageName></packageName>
-						<script>-----
+							<eventHandlerList>
+								<string>gmcp.Char.Items.List</string>
+							</eventHandlerList>
+						</Script>
+						<Script isActive="yes" isFolder="no">
+							<name>IRE.gmcp.char.items_Remove</name>
+							<packageName></packageName>
+							<script>-----
 --@Description Processes gmcp.Char.Items.Remove, removing an item from the local room inventory or character inventory
 --@Event IRE.core.inventory.remove Raised when an item is removed from character inventory.
 -- Passes the item as defined by gmcp.Char.Items.Remove.item as its argument.
@@ -1003,16 +1030,36 @@ function IRE.gmcp.char.items_Remove()
     raiseEvent("IRE.core.room.inventoryRemove",gmcp.Char.Items.Remove.item)
 	end
 end</script>
-						<eventHandlerList>
-							<string>gmcp.Char.Items.Remove</string>
-						</eventHandlerList>
-					</Script>
+							<eventHandlerList>
+								<string>gmcp.Char.Items.Remove</string>
+							</eventHandlerList>
+						</Script>
+						<Script isActive="yes" isFolder="no">
+							<name>IRE.gmcp.char.vitals</name>
+							<packageName></packageName>
+							<script>function IRE.gmcp.char.vitals()
+	-- set the players class
+	if IRE.core.char.vitals.class == "" then IRE.core.char.vitals.class = gmcp.Char.Vitals.class end
+	
+	local hp = tonumber(gmcp.Char.Vitals.hp);
+	local maxhp = tonumber(gmcp.Char.Vitals.maxhp);
+	IRE.core.char.vitals.healthBar:setValue(hp,maxhp, "&lt;center&gt;Health: "..hp.."/"..maxhp);
+	
+	local resource1 = tonumber(gmcp.Char.Vitals.pt);
+	local maxResource1 = tonumber(gmcp.Char.Vitals.maxpt);
+	IRE.core.char.vitals.resource1Bar:setValue(resource1,maxResource1,
+		"&lt;center&gt;"..resource1.."/"..maxResource1);
+end</script>
+							<eventHandlerList>
+								<string>gmcp.Char.Vitals</string>
+							</eventHandlerList>
+						</Script>
+					</ScriptGroup>
 				</ScriptGroup>
-			</ScriptGroup>
-			<ScriptGroup isActive="yes" isFolder="yes">
-				<name>IRE.core</name>
-				<packageName></packageName>
-				<script>------
+				<ScriptGroup isActive="yes" isFolder="yes">
+					<name>IRE.core</name>
+					<packageName></packageName>
+					<script>------
 --@Description The core module for common IRE functionality
 ------
 IRE.core = IRE.core or {}
@@ -1021,11 +1068,11 @@ IRE.core = IRE.core or {}
 --Events
 --IRE.core.login Event thrown on character login
 -----</script>
-				<eventHandlerList />
-				<ScriptGroup isActive="yes" isFolder="yes">
-					<name>IRE.core.inventory</name>
-					<packageName></packageName>
-					<script>------
+					<eventHandlerList />
+					<ScriptGroup isActive="yes" isFolder="yes">
+						<name>IRE.core.inventory</name>
+						<packageName></packageName>
+						<script>------
 --@Description The core inventory module
 ------
 IRE.core.inventory = IRE.core.inventory or {}
@@ -1068,25 +1115,25 @@ end
 function IRE.core.inventory.removeItem(item)
   IRE.core.inventory.list[item.id] = nil
 end</script>
-					<eventHandlerList />
-					<Script isActive="yes" isFolder="no">
-						<name>IRE.core.inventory.login</name>
-						<packageName></packageName>
-						<script>-----
+						<eventHandlerList />
+						<Script isActive="yes" isFolder="no">
+							<name>IRE.core.inventory.login</name>
+							<packageName></packageName>
+							<script>-----
 --@Description Sends the gmcp inventory request at login
 -----
 function IRE.core.inventory.login()
   sendGMCP("Char.Items.Inv")
 end</script>
-						<eventHandlerList>
-							<string>IRE.core.login</string>
-						</eventHandlerList>
-					</Script>
-				</ScriptGroup>
-				<ScriptGroup isActive="yes" isFolder="yes">
-					<name>IRE.core.room</name>
-					<packageName></packageName>
-					<script>------
+							<eventHandlerList>
+								<string>IRE.core.login</string>
+							</eventHandlerList>
+						</Script>
+					</ScriptGroup>
+					<ScriptGroup isActive="yes" isFolder="yes">
+						<name>IRE.core.room</name>
+						<packageName></packageName>
+						<script>------
 --@Description The core room module
 ------
 IRE.core.room = IRE.core.room or {}
@@ -1129,13 +1176,565 @@ end
 function IRE.core.room.removeInventoryItem(item)
   IRE.core.room.inventory[item.id] = nil
 end</script>
+						<eventHandlerList />
+					</ScriptGroup>
+					<ScriptGroup isActive="yes" isFolder="yes">
+						<name>IRE.core.char</name>
+						<packageName></packageName>
+						<script>IRE.core.char = IRE.core.char or {}</script>
+						<eventHandlerList />
+						<ScriptGroup isActive="yes" isFolder="yes">
+							<name>IRE.core.char.vitals</name>
+							<packageName></packageName>
+							<script>IRE.core.char.vitals = IRE.core.char.vitals or {}</script>
+							<eventHandlerList />
+							<Script isActive="yes" isFolder="no">
+								<name>IRE.core.char.vitalsBars</name>
+								<packageName></packageName>
+								<script>IRE.core.char.vitalsBars = Geyser.HBox:new({
+	name = "IRE.core.char.vitalsBars",
+	x = 0, y = 0,
+	width = "100%",
+	height = "100%"
+}, vitals);
+
+IRE.core.char.vitals.healthBar = Geyser.Gauge:new({
+	name = "IRE.core.char.vitals.healthBar",
+	fontSize = 8,
+}, IRE.core.char.vitalsBars);
+
+IRE.core.char.vitals.healthBar.front:setStyleSheet([[
+	background-color: red;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	border: 2px solid white;
+]]);
+
+IRE.core.char.vitals.healthBar.back:setStyleSheet([[
+	background-color: grey;
+	opacity: 0.3;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	border: 2px solid white;
+	
+]]);
+
+IRE.core.char.vitals.resource1Bar = Geyser.Gauge:new({
+	name = "IRE.core.char.vitals.resource1Bar",
+	fontSize = 8,
+}, IRE.core.char.vitalsBars);
+
+IRE.core.char.vitals.resource1Bar.front:setStyleSheet([[
+	background-color: blue;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	border: 2px solid white;
+]]);
+
+IRE.core.char.vitals.resource1Bar.back:setStyleSheet([[
+	background-color: grey;
+	opacity: 0.3;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	border: 2px solid white;
+	
+]]);</script>
+								<eventHandlerList />
+							</Script>
+						</ScriptGroup>
+					</ScriptGroup>
+					<ScriptGroup isActive="yes" isFolder="yes">
+						<name>IRE.core.comm</name>
+						<packageName></packageName>
+						<script>------
+--@Description The core communication module
+------
+IRE.core.comm = IRE.core.comm or {}</script>
+						<eventHandlerList />
+						<Script isActive="yes" isFolder="no">
+							<name>IRE.core.comm.login</name>
+							<packageName></packageName>
+							<script>-----
+--@Description Activates GMCP Comms
+-----
+function IRE.core.comm.login()
+  sendGMCP([[Core.Supports.Add ["Comm.Channel 1"] ]])
+end</script>
+							<eventHandlerList>
+								<string>IRE.core.login</string>
+							</eventHandlerList>
+						</Script>
+						<Script isActive="yes" isFolder="no">
+							<name>IRE.core.comm.received</name>
+							<packageName></packageName>
+							<script>function IRE.core.comm.received(event)
+  	local payload = gmcp.Comm.Channel.Text
+  	local text = ansi2decho(payload.text)
+  	decho("Chat", text..'\n')
+end
+registerAnonymousEventHandler('gmcp.Comm.Channel.Text', 'IRE.core.comm.received')</script>
+							<eventHandlerList />
+						</Script>
+					</ScriptGroup>
+				</ScriptGroup>
+			</ScriptGroup>
+			<ScriptGroup isActive="yes" isFolder="yes">
+				<name>fText</name>
+				<packageName>fText</packageName>
+				<script></script>
+				<eventHandlerList />
+				<ScriptGroup isActive="yes" isFolder="yes">
+					<name>TextFormatter</name>
+					<packageName></packageName>
+					<script></script>
 					<eventHandlerList />
+					<Script isActive="yes" isFolder="no">
+						<name>standaloneFormatter</name>
+						<packageName></packageName>
+						<script>demonnic = demonnic or {}
+
+function demonnic:wordWrap(str, limit, indent, indent1)
+  -- pulled from http://lua-users.org/wiki/StringRecipes
+  indent = indent or ""
+  indent1 = indent1 or indent
+  limit = limit or 72
+  local here = 1-#indent1
+  local function check(sp, st, word, fi)
+    if fi - here &gt; limit then
+      here = st - #indent
+      return "\n"..indent..word
+    end
+  end
+  return indent1..str:gsub("(%s+)()(%S+)()", check)
+end
+
+function demonnic:fText(str, opts)
+  local options = demonnic:fixFormatOptions(str, opts)  
+  if options.wrap and (options.strLen &gt; options.effWidth) then
+    local wrapped = demonnic:wordWrap(str, options.effWidth)
+    local lines = wrapped:split("\n")
+    local formatted = {}
+		options.fixed = false
+    for _,line in ipairs(lines) do
+      table.insert(formatted, demonnic:fLine(line, options))
+    end
+    return table.concat(formatted, "\n")
+  else
+    return demonnic:fLine(str, options)
+  end
+end
+
+function demonnic:fixFormatOptions(str, opts)
+  if opts.fixed then return table.deepcopy(opts) end
+  --Set up all the things we might call the different echo types
+  local dec = {"d", "decimal", "dec"}
+  local hex = {"h", "hexidecimal", "hex"}
+  local col = {"c", "color", "colour", "col", "name"}
+  if opts == nil then opts = {} end -- don't overwrite options if they passed them
+  --but if they passed something other than a table as the options than oopsie!
+  if type(opts) ~= "table" then 
+    error("Improper argument: options expected to be passed as table") 
+  end
+  --now we make a copy of the table, so we don't edit the original during all this
+  local options = table.deepcopy(opts)
+  if options.wrap == nil then options.wrap = true end --wrap by default.
+  options.formatType = options.formatType or "" --by default, no color formatting.
+  options.width = options.width or 80 --default 80 width
+  options.cap = options.cap or "" --no cap by default
+  options.spacer = options.spacer or " " --default spacer is the space character
+  options.alignment = options.alignment or "center" --default alignment is centered
+  if options.inside == nil then options.inside = false end --by default, we don't put the spacer inside
+  if not options.mirror == false then options.mirror = options.mirror or true end--by default, we do want to use mirroring for the caps
+  --setup default options for colors based on the color formatting type
+  if table.contains(dec, options.formatType) then
+    options.capColor = options.capColor or "&lt;255,255,255&gt;"
+    options.spacerColor = options.spacerColor or "&lt;255,255,255&gt;"
+    options.textColor = options.textColor or "&lt;255,255,255&gt;"
+    options.colorPattern = "&lt;%d+,%d+,%d+:?%d*,?%d*,?%d*&gt;"
+  elseif table.contains(hex, options.formatType) then
+    options.capColor = options.capColor or "|cFFFFFF"
+    options.spacerColor = options.spacerColor or "|cFFFFFF"
+    options.textColor = options.textColor or "|cFFFFFF"
+    options.colorPattern = 'c|%d%d%d%d%d%d'
+  elseif table.contains(col, options.formatType) then
+    options.capColor = options.capColor or "&lt;white&gt;"
+    options.spacerColor = options.spacerColor or "&lt;white&gt;"
+    options.textColor = options.textColor or "&lt;white&gt;"
+    options.colorPattern = "&lt;%w*_?%w*:?%w*_?%w*&gt;"
+  else
+    options.capColor = ""
+    options.spacerColor = ""
+    options.textColor = ""
+    options.colorPattern = ""
+  end
+  options.originalString = str
+  options.strippedString = str:gsub(options.colorPattern, "")
+  options.strLen = string.len(options.strippedString)
+  options.leftCap = options.cap
+	options.rightCap = options.cap
+  options.leftPadLen = math.floor((options.width - options.strLen)/2,1) - 1
+  options.rightPadLen = options.leftPadLen + ((options.width - options.strLen)%2)
+  options.maxPad = 0
+  options.capLen = string.len(options.cap)
+  options.effWidth = options.width - ((options.capLen * 2) + 2)
+  if options.capLen &gt; options.leftPadLen then
+    options.cap = options.cap:sub(1, leftPadLen)
+    options.capLen = string.len(options.cap)
+  end
+  options.fixed = true
+  return options
+end
+
+function demonnic:fLine(str,opts)
+  local options = demonnic:fixFormatOptions(str,opts)
+  local strippedString = options.strippedString
+  local strLen = options.strLen
+  local leftCap = options.leftCap
+  local rightCap = options.rightCap
+  local leftPadLen = options.leftPadLen
+  local rightPadLen = options.rightPadLen
+  local maxPad = options.maxPad
+  local capLen = options.capLen
+
+  if options.alignment == "center" then --we're going to center something
+    if options.mirror then --if we're reversing the left cap and the right cap (IE {{[[ turns into ]]}} )
+      rightCap = string.gsub(rightCap, "&lt;", "&gt;")
+      rightCap = string.gsub(rightCap, "%[", "%]")
+      rightCap = string.gsub(rightCap, "{", "}")
+      rightCap = string.gsub(rightCap, "%(", "%)")
+      rightCap = string.reverse(rightCap)
+    end --otherwise, they'll be the same, so don't do anything
+    str = string.format(" %s ", str)
+    
+  elseif options.alignment == "right" then --we'll right-align the text
+    leftPadLen = leftPadLen + rightPadLen
+    rightPadLen = 0
+    rightCap = ""
+    str = string.format(" %s", str)
+    
+  else --Ok, so if it's not center or right, we assume it's left. We don't do justified. Sorry.
+    rightPadLen = rightPadLen + leftPadLen
+    leftPadLen = 0
+    leftCap = ""
+    str = string.format("%s ", str)
+  end--that's it, took care of both left, right, and center formattings, now to output the durn thing. 
+  
+  if options.inside then 
+  --if we're placing the repated spacer inside
+  --"=====endcap some text endcap=====" 
+  --"=====endcap some text pacdne====="
+  --"=================endcap some text" 
+  --"some text endcap================="
+    return options.capColor .. leftCap .. options.spacerColor.. string.rep(options.spacer, (leftPadLen - capLen)) .. options.textColor .. str .. options.spacerColor ..string.rep(options.spacer, (rightPadLen - capLen)) .. options.capColor .. rightCap
+  else 
+  --otherwise, it''s be the spaces on the 'inside'
+  -- "endcap===== some text =====endcap"
+  -- "endcap===== some text =====pacdne" 
+  -- "endcap================= some text" 
+  -- "some text =================endcap"
+    return options.spacerColor .. string.rep(options.spacer, (leftPadLen - capLen)) .. options.capColor .. leftCap .. options.textColor .. str .. options.capColor .. rightCap .. options.spacerColor .. string.rep(options.spacer, (rightPadLen - capLen))
+  end
+end
+
+function demonnic:align(str, opts)
+  local options = {}
+  if opts == nil then
+    opts = {}
+  end
+  if type(opts) == "table" then
+    options = table.deepcopy(opts)
+    options.formatType = ""
+		options.wrap = false
+  else
+    error("Improper argument: options expected to be passed as table") 
+  end
+  options = demonnic:fixFormatOptions(str, options)
+  return demonnic:fLine(str, options)
+end
+
+function demonnic:dalign(str, opts)
+  local options = {}
+  if opts == nil then
+    opts = {}
+  end
+  if type(opts) == "table" then
+    options = table.deepcopy(opts)
+    options.formatType = "d"
+    options.wrap = false
+  else
+    error("Improper argument: options expected to be passed as table") 
+  end
+  options = demonnic:fixFormatOptions(str, options)
+  return demonnic:fLine(str, options)
+end
+
+function demonnic:calign(str, opts)
+  local options = {}
+  if opts == nil then
+    opts = {}
+  end
+  if type(opts) == "table" then
+    options = table.deepcopy(opts)
+    options.formatType = "c"
+    options.wrap = false
+  else
+    error("Improper argument: options expected to be passed as table") 
+  end
+  options = demonnic:fixFormatOptions(str, options)
+  return demonnic:fLine(str, options)
+end
+
+function demonnic:halign(str, opts)
+  local options = {}
+  if opts == nil then
+    opts = {}
+  end
+  if type(opts) == "table" then
+    options = table.deepcopy(opts)
+    options.formatType = "h"
+    options.wrap = false
+  else
+    error("Improper argument: options expected to be passed as table") 
+  end
+  options = demonnic:fixFormatOptions(str, options)
+  return demonnic:fLine(str, options)
+end
+
+function demonnic:cfText(str, opts)
+  local options = {}
+  if opts == nil then opts = {} end
+  if type(opts) == "table" then
+    options = table.deepcopy(opts)
+    options.formatType = "c"
+  else
+    error("Improper argument: options expected to be passed as table") 
+  end
+  options = demonnic:fixFormatOptions(str, options)
+  return demonnic:fText(str, options)
+end
+
+function demonnic:dfText(str, opts)
+  local options = {}
+  if opts == nil then opts = {} end
+  if type(opts) == "table" then
+    options = table.deepcopy(opts)
+    options.formatType = "d"
+  else
+    error("Improper argument: options expected to be passed as table") 
+  end
+  options = demonnic:fixFormatOptions(str, options)
+  return demonnic:fText(str, options)
+end
+
+function demonnic:hfText(str, opts)
+  local options = {}
+  if opts == nil then opts = {} end
+  if type(opts) == "table" then
+    options = table.deepcopy(opts)
+    options.formatType = "h"
+  else
+    error("Improper argument: options expected to be passed as table") 
+  end
+  options = demonnic:fixFormatOptions(str, options)
+  return demonnic:fText(str, options)
+end
+
+function demonnic:test_ftext()
+  local testString = "This is a test of the emergency broadcast system. This is only a test. If this had been a real emergency, we would have given you more sensible information after this. But this was only a test."
+  
+  local nTable = {width = 40, cap = "(CAP)", inside = true, alignment = 'center'}
+  local cTable = table.deepcopy(nTable)
+    cTable.formatType="c"
+    cTable.capColor = "&lt;red:black&gt;"
+    cTable.spacerColor = "&lt;purple:green&gt;"
+    cTable.textColor = "&lt;purple:green&gt;"
+  
+  local dTable = table.deepcopy(nTable)
+    dTable.formatType="d"
+    dTable.capColor = "&lt;0,0,182&gt;"
+    dTable.spacerColor = "&lt;0,182,0&gt;"
+    dTable.textColor = "&lt;182,0,0&gt;"
+  
+  local hTable = table.deepcopy(nTable)
+    hTable.formatType="h"
+    hTable.capColor = "#FF0000"
+    hTable.spacerColor = "#00FF00"
+    hTable.textColor = "#0000FF"
+  echo(string.rep("\n", 5))
+  echo("With word wrap:\n")
+  echo(demonnic:fText(testString, nTable) .. "\n")
+  cecho(demonnic:fText(testString, cTable) .. "\n")
+  decho(demonnic:fText(testString, dTable) .. "\n")
+  hecho(demonnic:fText(testString, hTable) .. "\n")
+
+  echo("\n\nWithout word wrap:\n")
+  echo(demonnic:align(testString, nTable) .. "\n")
+  decho(demonnic:dalign(testString, dTable) .. "\n")
+  cecho(demonnic:calign(testString, cTable) .. "\n")
+  hecho(demonnic:halign(testString, hTable) .. "\n")
+end</script>
+						<eventHandlerList />
+					</Script>
+					<Script isActive="yes" isFolder="no">
+						<name>reusableFormatter</name>
+						<packageName></packageName>
+						<script>demonnic.TextFormatter = {
+  options = {
+    formatType = "c",
+    wrap = true,
+    width = 80,
+    cap = "",
+    spacer = " ",
+    alignment = "center",
+    inside = true,
+    mirror = false,
+  },
+  validFormatTypes = { 'd', 'dec', 'decimal', 'h', 'hex', 'hexidecimal', 'c', 'color', 'colour', 'col', 'name'}
+}
+
+function demonnic.TextFormatter:setType(typeToSet)
+  local isNotValid = not table.contains(self.validFormatTypes, typeToSet)
+  if isNotValid then
+    error("demonnic.TextFormatter:setType: Invalid argument, valid types are:" .. table.concat(self.validFormatTypes, ", "))
+  end
+  self.options.formatType = typeToSet
+end
+
+function demonnic.TextFormatter:toBoolean(thing)
+  if type(thing) ~= "boolean" then
+    if thing == "true" then
+      thing = true
+    elseif thing == "false" then
+      thing = false
+    else
+      return nil
+    end
+  end
+  return thing
+end
+
+function demonnic.TextFormatter:checkString(str)
+  if type(str) ~= "string" then
+    if tostring(str) then
+      str = tostring(str)
+    else
+      return nil
+    end
+  end
+  return str
+end
+
+function demonnic.TextFormatter:setWrap(shouldWrap)
+  shouldWrap = self:toBoolean(shouldWrap)
+  if shouldWrap == nil then
+    error("demonnic.TextFormatter:setWrap(shouldWrap) Argument error, boolean expected, got " .. type(shouldWrap) .. ", if you want to set the number of characters wide to format for, use setWidth()")
+  end
+  self.options.wrap = shouldWrap
+end
+
+function demonnic.TextFormatter:setWidth(width)
+  if type(width) ~= "number" then
+    if tonumber(width) then
+      width = tonumber(width)
+    else
+      error("demonnic.TextFormatter:setWidth(width): Argument error, number expected, got " .. type(width))
+    end
+  end
+  self.options.width = width
+end
+
+function demonnic.TextFormatter:setCap(cap)
+  local cap = self:checkString(cap)
+  if cap == nil then error("demonnic.TextFormatter:setCap(cap): Argument error, string expect, got " .. type(cap)) end
+  self.options.cap = cap
+end
+
+function demonnic.TextFormatter:setCapColor(capColor)
+  local capColor = self:checkString(capColor)
+  if capColor == nil then error("demonnic.TextFormatter:setCapColor(capColor): Argument error, string expected, got " .. type(capColor)) end
+  self.options.capColor = capColor
+end
+
+function demonnic.TextFormatter:setSpacerColor(spacerColor)
+  local spacerColor = self:checkString(spacerColor)
+  if spacerColor == nil then error("demonnic.TextFormatter:setSpacerColor(spacerColor): Argument error, string expected, got " .. type(spacerColor)) end
+  self.options.spacerColor = spacerColor
+end
+
+function demonnic.TextFormatter:setTextColor(textColor)
+  local textColor = self:checkString(textColor)
+  if textColor == nil then error("demonnic.TextFormatter:setTextColor(textColor): Argument error, string expected, got " .. type(textColor)) end
+  self.options.textColor = textColor
+end
+
+function demonnic.TextFormatter:setSpacer(spacer)
+  local spacer = self:checkString(spacer)
+  if spacer == nil then error("demonnic.TextFormatter:setSpacer(spacer): Argument error, string expect, got " .. type(spacer)) end
+  self.options.spacer = spacer
+end
+
+function demonnic.TextFormatter:setAlignment(alignment)
+  local validAlignments = {
+    "left",
+    "right",
+    "center"
+  }
+  if not table.contains(validAlignments, alignment) then
+    error("demonnic.TextFormatter:setAlignment(alignment): Argument error: Only valid arguments for setAlignment are 'left', 'right', or 'center'. You sent" .. alignment)
+  end
+  self.options.alignment = alignment
+end
+
+function demonnic.TextFormatter:setInside(spacerInside)
+  spacerInside = self:toBoolean(spacerInside)
+  if spacerInside == nil then
+    error("demonnic.TextFormatter:setInside(spacerInside) Argument error, boolean expected, got " .. type(spacerInside))
+  end
+  self.options.inside = spacerInside
+end
+
+function demonnic.TextFormatter:setMirror(shouldMirror)
+  shouldMirror = self:toBoolean(shouldMirror)
+  if shouldMirror == nil then
+    error("demonnic.TextFormatter:setMirror(shouldMirror): Argument error, boolean expected, got " .. type(shouldMirror))
+  end
+  self.options.mirror = shouldMirror
+end
+
+function demonnic.TextFormatter:format(str)
+  return demonnic:fText(str, self.options)
+end
+
+setmetatable(demonnic.TextFormatter, demonnic.TextFormatter)
+function demonnic.TextFormatter:new(options)
+  me = {}
+  setmetatable(me, self)
+  self.__index = self
+  if type(options) == "table" then
+    for option,value in pairs(options) do
+      me.options[option] = value
+    end
+  elseif option ~= nil then
+    error("demonnic.TextFormatter:new(options): Argument error, table expected, got " .. type(options))
+  end
+  return me
+end</script>
+						<eventHandlerList />
+					</Script>
 				</ScriptGroup>
 			</ScriptGroup>
 		</ScriptGroup>
 	</ScriptPackage>
 	<KeyPackage />
-	<HelpPackage>
-		<helpURL></helpURL>
-	</HelpPackage>
+	<VariablePackage>
+		<HiddenVariables />
+	</VariablePackage>
 </MudletPackage>
