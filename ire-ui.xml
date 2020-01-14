@@ -55,7 +55,8 @@
 -----
 
 local game = matches[2]
-raiseEvent("IRE.core.login", game)</script>
+raiseEvent("IRE.core.login", game)
+enableTrigger("Nano Check")</script>
 						<triggerType>0</triggerType>
 						<conditonLineDelta>0</conditonLineDelta>
 						<mStayOpen>0</mStayOpen>
@@ -224,10 +225,10 @@ GUIframe.activate("StarChart")</script>
 								<colorTriggerFgColor>#000000</colorTriggerFgColor>
 								<colorTriggerBgColor>#000000</colorTriggerBgColor>
 								<regexCodeList>
-									<string>You are in</string>
+									<string>^You are in the (.*) zone within the (.*) subsec.$</string>
 								</regexCodeList>
 								<regexCodePropertyList>
-									<integer>2</integer>
+									<integer>1</integer>
 								</regexCodePropertyList>
 							</Trigger>
 						</Trigger>
@@ -272,6 +273,27 @@ GUIframe.activate("StarChart")</script>
 							</regexCodePropertyList>
 						</Trigger>
 					</TriggerGroup>
+					<Trigger isActive="no" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+						<name>Nano Check</name>
+						<script>IRE.gui.char.nanobar()
+disableTrigger("Nano Check")</script>
+						<triggerType>0</triggerType>
+						<conditonLineDelta>0</conditonLineDelta>
+						<mStayOpen>0</mStayOpen>
+						<mCommand></mCommand>
+						<packageName></packageName>
+						<mFgColor>#ff0000</mFgColor>
+						<mBgColor>#ffff00</mBgColor>
+						<mSoundFile></mSoundFile>
+						<colorTriggerFgColor>#000000</colorTriggerFgColor>
+						<colorTriggerBgColor>#000000</colorTriggerBgColor>
+						<regexCodeList>
+							<string></string>
+						</regexCodeList>
+						<regexCodePropertyList>
+							<integer>7</integer>
+						</regexCodePropertyList>
+					</Trigger>
 				</TriggerGroup>
 			</TriggerGroup>
 		</TriggerGroup>
@@ -3921,8 +3943,73 @@ end
 			</TriggerGroup>
 		</TriggerGroup>
 	</TriggerPackage>
-	<TimerPackage />
+	<TimerPackage>
+		<TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
+			<name>mudlet-mapper</name>
+			<script></script>
+			<command></command>
+			<packageName>mudlet-mapper</packageName>
+			<time></time>
+			<TimerGroup isActive="yes" isFolder="yes" isTempTimer="no" isOffsetTimer="no">
+				<name>Mudlet Mapper</name>
+				<script></script>
+				<command></command>
+				<packageName></packageName>
+				<time>00:00:00.000</time>
+				<Timer isActive="yes" isFolder="no" isTempTimer="no" isOffsetTimer="no">
+					<name>Check for updates periodically</name>
+					<script>mmp.checkforupdate()</script>
+					<command></command>
+					<packageName></packageName>
+					<time>01:00:00.000</time>
+				</Timer>
+			</TimerGroup>
+		</TimerGroup>
+	</TimerPackage>
 	<AliasPackage>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>echo</name>
+			<script></script>
+			<command></command>
+			<packageName>echo</packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>`echo</name>
+				<script>local s = matches[2]
+
+s = string.gsub(s, "%$", "\n")
+feedTriggers("\n" .. s .. "\n")
+echo("\n")</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>`echo (.+)</regex>
+			</Alias>
+		</AliasGroup>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>run-lua-code-v4</name>
+			<script></script>
+			<command></command>
+			<packageName>run-lua-code-v4</packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>run lua code</name>
+				<script>local f, e = loadstring("return "..matches[2])
+if not f then
+  f, e = assert(loadstring(matches[2]))
+end
+
+local r =
+  function(...)
+    if not table.is_empty({...}) then
+      display(...)
+    end
+  end
+r(f())</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^lua (.*)$</regex>
+			</Alias>
+		</AliasGroup>
 		<AliasGroup isActive="yes" isFolder="yes">
 			<name>mudlet-mapper</name>
 			<script></script>
@@ -6253,33 +6340,6 @@ registerAnonymousEventHandler("sysWindowResizeEvent","GUIframe.eventHandler")</s
 registerAnonymousEventHandler("sysExitEvent", "GUIframe.saveSettings")
 local mainW, mainH = getMainWindowSize()
 local halfW, halfH = math.floor(mainW / 2), math.floor(mainH / 2)
-GUIframe.configs =
-  {
-    tabHeight = 20,
-    tabStyle =
-      [[
-        background-color: green;
-        border-width: 2px;
-        border-style: outset;
-        border-color: limegreen;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        margin-right: 1px;
-        margin-left: 1px;
-        qproperty-alignment: 'AlignCenter | AlignCenter';]],
-    tabEchoStyle = '&lt;center&gt;&lt;p style="font-size:14px; color = white"&gt;',
-    leftStartWidth = 450,
-    leftStartHeight = halfH,
-    rightStartWidth = 400,
-    rightStartHeight = halfH,
-    topStartHeight = 0,
-    bottomStartHeight = 110,
-    resizeHeight = 30,
-    resizeWidth = 30,
-    resizeHoverImage = "/ire-ui/img/blue_arrows.png",
-    resizeRestImage = "/ire-ui/img/blue_arrows_30t.png",
-    borderOffset = 5,
-  }
 mapper = Geyser.Mapper:new({name = "myMapper"})
 starmap = Geyser.MiniConsole:new({
 				name = "StarMap",
@@ -6292,8 +6352,8 @@ chat = Geyser.MiniConsole:new({name = "Chat", autoWrap = true, color = "black"})
 characterinfo =
   Geyser.Label:new(
     {
-      name = "RedBox",
-      color = "red",
+      name = "CharacterInfo",
+      color = "black",
       x = 0,
       y = 0,
       width = 0,
@@ -6304,8 +6364,8 @@ characterinfo =
 skills =
   Geyser.Label:new(
     {
-      name = "BlueBox",
-      color = "blue",
+      name = "Skills",
+      color = "black",
       x = 0,
       y = 0,
       width = 0,
@@ -6316,8 +6376,8 @@ skills =
 inventory =
   Geyser.Label:new(
     {
-      name = "GreenBox",
-      color = "brown",
+      name = "Inventory",
+      color = "black",
       x = 0,
       y = 0,
       width = 0,
@@ -6336,8 +6396,8 @@ inventory =
 roominfo =
   Geyser.Label:new(
     {
-      name = "OrangeBox",
-      color = "orange",
+      name = "RoomInfo",
+      color = "black",
       x = 0,
       y = 0,
       width = 0,
@@ -6348,8 +6408,8 @@ roominfo =
 online =
   Geyser.Label:new(
     {
-      name = "YellowBox",
-      color = "pink",
+      name = "Online",
+      color = "black",
       x = 0,
       y = 0,
       width = 0,
@@ -6360,8 +6420,8 @@ online =
 quests =
   Geyser.Label:new(
     {
-      name = "YellowBox2",
-      color = "gold",
+      name = "Quests",
+      color = "black",
       x = 0,
       y = 0,
       width = 0,
@@ -6387,8 +6447,8 @@ GUIframe.addWindow(characterinfo, "Me", "bottomleft")
 GUIframe.addWindow(skills, "Skills", "bottomleft")
 GUIframe.addWindow(inventory, "Inventory", "bottomleft")
 GUIframe.addWindow(starchart, "StarChart", "bottomleft")
-GUIframe.addWindow(roominfo, "Room info", "topright")
-GUIframe.addWindow(online, "Online", "topright")
+GUIframe.addWindow(roominfo, "Room Info", "topright")
+GUIframe.addWindow(online, "Players Online", "topright")
 GUIframe.addWindow(quests, "Quests", "bottomright")
 GUIframe.addWindow(chat, "Chat", "bottomright")
 GUIframe.addWindow(vitals, "Vitals", "bottom")
@@ -6419,132 +6479,168 @@ IRE.gui.subsystems = {"muscular", "internal", "sensory", "mind", "wetwiring"}</s
 						<packageName></packageName>
 						<script>function IRE.gui.char.vitals_bars(event, game)
   if game == "Starmourn" then
+    IRE.gui.char.vitals_bars = Geyser.HBox:new({
+      name = "IRE.gui.vitals_bars",
+      x = "1%", y = 0,
+      width = "98%",
+      height = "32%"
+    }, vitals);
+
+    IRE.gui.char.vitals_bars.health_bar = Geyser.Gauge:new({
+    	name = "IRE.gui.char.vitals_bars.health_bar",
+    	fontSize = 8,
+    }, IRE.gui.char.vitals_bars);
+
+    IRE.gui.char.vitals_bars.health_bar.front:setStyleSheet([[
+    	background-color: ForestGreen;
+    	border-top-left-radius: 0.70em;
+    	border-top-right-radius: 0.70em;
+    	border-bottom-left-radius: 0.70em;
+    	border-bottom-right-radius: 0.70em;
+    	border: 2px solid white;
+    ]]);
+
+    IRE.gui.char.vitals_bars.health_bar.back:setStyleSheet([[
+    	background-color: black;
+    	opacity: 100;
+    	border-top-left-radius: 0.50em;
+    	border-top-right-radius: 0.50em;
+    	border-bottom-left-radius: 0.50em;
+    	border-bottom-right-radius: 0.50em;
+    	border: 2px solid white;
+    ]]);
+
+
+
+    IRE.gui.char.vitals_bars.resource1_bar = Geyser.Gauge:new({
+    	name = "IRE.gui.char.vitals_bars.resource1_bar",
+    	fontSize = 8,
+    }, IRE.gui.char.vitals_bars);
+
+    IRE.gui.char.vitals_bars.resource1_bar.front:setStyleSheet([[
+    	background-color: MidnightBlue;
+    	border-top-left-radius: 0.50em;
+    	border-top-right-radius: 0.50em;
+    	border-bottom-left-radius: 0.50em;
+    	border-bottom-right-radius: 0.50em;
+    	border: 2px solid white;
+    ]]);
+
+    IRE.gui.char.vitals_bars.resource1_bar.back:setStyleSheet([[
+    	background-color: black;
+    	opacity: 100;
+    	border-top-left-radius: 0.50em;
+    	border-top-right-radius: 0.50em;
+    	border-bottom-left-radius: 0.50em;
+    	border-bottom-right-radius: 0.50em;
+    	border: 2px solid "white";
+    ]]);
+
+    IRE.gui.char.subsys_bars = Geyser.HBox:new({
+    	name = "IRE.gui.char.subsys_bars",
+    	x = "1%", y = "33%",
+    	width = "98%",
+    	height = "32%"
+    }, vitals);
+
+    for i,subsys in ipairs(IRE.gui.subsystems) do
+    	IRE.gui.char.subsys_bars[subsys] = Geyser.Gauge:new({
+    		name = "IRE.gui.char.subsys_bars."..subsys,
+    		fontSize = 8,
+    	}, IRE.gui.char.subsys_bars);
+	
+    	IRE.gui.char.subsys_bars[subsys].front:setStyleSheet([[
+      	background-color: ForestGreen;
+      	border-top-left-radius: 0.50em;
+      	border-top-right-radius: 0.50em;
+      	border-bottom-left-radius: 0.50em;
+      	border-bottom-right-radius: 0.50em;
+      	border: 2px solid white;
+    	]]);
+      
+    	IRE.gui.char.subsys_bars[subsys].back:setStyleSheet([[
+      	background-color: black;
+      	opacity: 100;
+      	border-top-left-radius: 0.50em;
+      	border-top-right-radius: 0.50em;
+      	border-bottom-left-radius: 0.50em;
+      	border-bottom-right-radius: 0.50em;
+      	border: 2px solid "white";
+      	]]);
+        
+      IRE.gui.char.subsyseff_bars = Geyser.HBox:new({
+        name = "IRE.gui.char.subsyseff_bars",
+        x = "1%", y = "66%",
+        width = "98%",
+        height = "32%"
+      }, vitals);
+    end
     
-IRE.gui.char.vitals_bars = Geyser.HBox:new({
-	name = "IRE.gui.vitals_bars",
-	x = "1%", y = 0,
-	width = "98%",
-	height = "32%"
-}, vitals);
-
-IRE.gui.char.vitals_bars.health_bar = Geyser.Gauge:new({
-	name = "IRE.gui.char.vitals_bars.health_bar",
-	fontSize = 8,
-}, IRE.gui.char.vitals_bars);
-
-IRE.gui.char.vitals_bars.health_bar.front:setStyleSheet([[
-	background-color: red;
-	border-top-left-radius: 0.70em;
-	border-top-right-radius: 0.70em;
-	border-bottom-left-radius: 0.70em;
-	border-bottom-right-radius: 0.70em;
-	border: 2px solid white;
-]]);
-
-IRE.gui.char.vitals_bars.health_bar.back:setStyleSheet([[
-	background-color: black;
-	opacity: 100;
-	border-top-left-radius: 0.50em;
-	border-top-right-radius: 0.50em;
-	border-bottom-left-radius: 0.50em;
-	border-bottom-right-radius: 0.50em;
-	border: 2px solid white;
-]]);
-
-
-
-IRE.gui.char.vitals_bars.resource1_bar = Geyser.Gauge:new({
-	name = "IRE.gui.char.vitals_bars.resource1_bar",
-	fontSize = 8,
-}, IRE.gui.char.vitals_bars);
-
-IRE.gui.char.vitals_bars.resource1_bar.front:setStyleSheet([[
-	background-color: blue;
-	border-top-left-radius: 0.50em;
-	border-top-right-radius: 0.50em;
-	border-bottom-left-radius: 0.50em;
-	border-bottom-right-radius: 0.50em;
-	border: 2px solid white;
-]]);
-
-IRE.gui.char.vitals_bars.resource1_bar.back:setStyleSheet([[
-	background-color: black;
-	opacity: 100;
-	border-top-left-radius: 0.50em;
-	border-top-right-radius: 0.50em;
-	border-bottom-left-radius: 0.50em;
-	border-bottom-right-radius: 0.50em;
-	border: 2px solid "white";
-]]);
-
-IRE.gui.char.subsys_bars = Geyser.HBox:new({
-	name = "IRE.gui.char.subsys_bars",
-	x = "1%", y = "33%",
-	width = "98%",
-	height = "32%"
-}, vitals);
-
-for i,subsys in ipairs(IRE.gui.subsystems) do
-	IRE.gui.char.subsys_bars[subsys] = Geyser.Gauge:new({
-		name = "IRE.gui.char.subsys_bars."..subsys,
-		fontSize = 8,
-	}, IRE.gui.char.subsys_bars);
-	
-	IRE.gui.char.subsys_bars[subsys].front:setStyleSheet([[
-	background-color: blue;
-	border-top-left-radius: 0.50em;
-	border-top-right-radius: 0.50em;
-	border-bottom-left-radius: 0.50em;
-	border-bottom-right-radius: 0.50em;
-	border: 2px solid white;
-	]]);
-	IRE.gui.char.subsys_bars[subsys].back:setStyleSheet([[
-	background-color: black;
-	opacity: 100;
-	border-top-left-radius: 0.50em;
-	border-top-right-radius: 0.50em;
-	border-bottom-left-radius: 0.50em;
-	border-bottom-right-radius: 0.50em;
-	border: 2px solid "white";
-	]]);
-  
-  IRE.gui.char.subsyseff_bars = Geyser.HBox:new({
-	name = "IRE.gui.char.subsyseff_bars",
-	x = "1%", y = "66%",
-	width = "98%",
-	height = "32%"
-}, vitals);
-
-for i,subsys in ipairs(IRE.gui.subsystems) do
-	IRE.gui.char.subsyseff_bars[subsys] = Geyser.Gauge:new({
-		name = "IRE.gui.char.subsyseff_bars."..subsys,
-		fontSize = 8,
-	}, IRE.gui.char.subsyseff_bars);
-	
-	IRE.gui.char.subsyseff_bars[subsys].front:setStyleSheet([[
-	background-color: blue;
-	border-top-left-radius: 0.50em;
-	border-top-right-radius: 0.50em;
-	border-bottom-left-radius: 0.50em;
-	border-bottom-right-radius: 0.50em;
-	border: 2px solid white;
-	]]);
-	IRE.gui.char.subsyseff_bars[subsys].back:setStyleSheet([[
-	background-color: black;
-	opacity: 100;
-	border-top-left-radius: 0.50em;
-	border-top-right-radius: 0.50em;
-	border-bottom-left-radius: 0.50em;
-	border-bottom-right-radius: 0.50em;
-	border: 2px solid "white";
-	]]);
-end
-end
-end
+    for i,subsys in ipairs(IRE.gui.subsystems) do
+      IRE.gui.char.subsyseff_bars[subsys] = Geyser.Gauge:new({
+      	name = "IRE.gui.char.subsyseff_bars."..subsys,
+      	fontSize = 8,
+      }, IRE.gui.char.subsyseff_bars);
+      	
+      IRE.gui.char.subsyseff_bars[subsys].front:setStyleSheet([[
+        background-color: ForestGreen;
+      	border-top-left-radius: 0.50em;
+      	border-top-right-radius: 0.50em;
+      	border-bottom-left-radius: 0.50em;
+      	border-bottom-right-radius: 0.50em;
+      	border: 2px solid white;
+      ]]);
+      
+      IRE.gui.char.subsyseff_bars[subsys].back:setStyleSheet([[
+      	background-color: black;
+      	opacity: 100;
+      	border-top-left-radius: 0.50em;
+      	border-top-right-radius: 0.50em;
+      	border-bottom-left-radius: 0.50em;
+      	border-bottom-right-radius: 0.50em;
+      	border: 2px solid "white";
+  	    ]]);
+    end
+  end
 end</script>
 						<eventHandlerList>
 							<string>IRE.core.login</string>
 						</eventHandlerList>
+					</Script>
+					<Script isActive="yes" isFolder="no">
+						<name>IRE.gui.char.nanobar()</name>
+						<packageName></packageName>
+						<script>function IRE.gui.char.nanobar()
+  if IRE.core.char.vitals.class == "Nanoseer" then
+    IRE.core.char.nano = true
+    IRE.gui.char.vitals_bars.resource2_bar = Geyser.Gauge:new({
+      name = "IRE.gui.char.vitals_bars.resource2_bar",
+      fontSize = 8,
+    }, IRE.gui.char.vitals_bars);
+
+    IRE.gui.char.vitals_bars.resource2_bar.front:setStyleSheet([[
+      background-color: MidnightBlue;
+      border-top-left-radius: 0.50em;
+      border-top-right-radius: 0.50em;
+      border-bottom-left-radius: 0.50em;
+      border-bottom-right-radius: 0.50em;
+      border: 2px solid white;
+    ]]);
+  
+    IRE.gui.char.vitals_bars.resource2_bar.back:setStyleSheet([[
+      background-color: black;
+      opacity: 100;
+      border-top-left-radius: 0.50em;
+      border-top-right-radius: 0.50em;
+      border-bottom-left-radius: 0.50em;
+      border-bottom-right-radius: 0.50em;
+      border: 2px solid "white";
+    ]]);
+  else
+    IRE.core.char.nano = false
+  end
+end</script>
+						<eventHandlerList />
 					</Script>
 				</ScriptGroup>
 				<ScriptGroup isActive="yes" isFolder="yes">
@@ -6668,8 +6764,23 @@ end</script>
     IRE.core.char.vitals.resource1 = tonumber(gmcp.Char.Vitals.pt)
     IRE.core.char.vitals.max_resource1 = tonumber(gmcp.Char.Vitals.maxpt)
     IRE.core.char.vitals.resource1_name = "Parts"
-    
+  elseif IRE.core.char.vitals.class == "Nanoseer" then
+    IRE.core.char.vitals.resource1 = tonumber(gmcp.Char.Vitals.nn)
+    IRE.core.char.vitals.max_resource1 = tonumber(gmcp.Char.Vitals.maxnn)
+    IRE.core.char.vitals.resource2 = tonumber(gmcp.Char.Vitals.sa)
+    IRE.core.char.vitals.max_resource2 = tonumber(gmcp.Char.Vitals.maxsa)
+    IRE.core.char.vitals.max_resource2_perc = gmcp.Char.Vitals.formatsa
+    IRE.core.char.vitals.resource1_name = "Nanites"
+    IRE.core.char.vitals.resource2_name = "Sanity"
   elseif IRE.core.char.vitals.class == "Fury" then
+    IRE.core.char.vitals.resource1 = tonumber(gmcp.Char.Vitals.rg)
+    IRE.core.char.vitals.max_resource1 = tonumber(gmcp.Char.Vitals.maxrg)
+    IRE.core.char.vitals.resource1_name = "Rage"
+    IRE.core.char.vitals.stance = gmcp.Char.vitals.st
+  elseif IRE.core.char.vitals.class == "Scoundrel" then
+    IRE.core.char.vitals.resource1 = tonumber(gmcp.Char.Vitals.bl)
+    IRE.core.char.vitals.max_resource1 = tonumber(gmcp.Char.Vitals.maxbl)
+    IRE.core.char.vitals.resource1_name = "Bullets"
   end
   raiseEvent("IRE.gmcp.char.vitals_updated")
 end</script>
@@ -6844,6 +6955,9 @@ IRE.core.char.vitals.class = ""</script>
     "&lt;center&gt; Mind Efficacy: "..IRE.core.char.vitals.mind_eff.."%")
   IRE.gui.char.subsyseff_bars.wetwiring:setValue(IRE.core.char.vitals.wetwiring_eff, 100,
     "&lt;center&gt; Wetwiring Efficacy: "..IRE.core.char.vitals.wetwiring_eff.."%")
+  if IRE.core.char.nano then IRE.gui.char.vitals_bars.resource2_bar:setValue(IRE.core.char.vitals.resource2, IRE.core.char.vitals.max_resource2,
+    "&lt;center&gt;"..IRE.core.char.vitals.resource2_name..": "..IRE.core.char.vitals.max_resource2_perc)
+  end
 end
 
 registerAnonymousEventHandler('IRE.gmcp.char.vitals_updated', 'IRE.core.char.vitals_update')</script>
