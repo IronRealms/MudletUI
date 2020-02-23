@@ -983,7 +983,7 @@ end</script>
 						</eventHandlerList>
 					</Script>
 					<Script isActive="yes" isFolder="no">
-						<name>IRE.gmcp.char.items_Remove</name>
+						<name>IRE.gmcp.char.items_remove</name>
 						<packageName></packageName>
 						<script>-----
 --@Description Processes gmcp.Char.Items.Remove, removing an item from the local room inventory or character inventory
@@ -992,12 +992,13 @@ end</script>
 --@Event IRE.core.room.inventoryRemove Raised when an item is removed from the room inventory.
 -- Passes the item as defined by gmcp.Char.Items.Remove.item as its argument.
 -----
-function IRE.gmcp.char.items_Remove()
+function IRE.gmcp.char.items_remove()
 	if gmcp.Char.Items.Remove.location == "inv"
   then
     IRE.core.inventory.removeItem(gmcp.Char.Items.Remove.item)
+    cecho(gmcp.Char.Items.Remove.item)
     raiseEvent("IRE.core.inventory.remove",gmcp.Char.Items.Remove.item)
-  elseif gmcp.Char.Items.Add.location == "room"
+  elseif gmcp.Char.Items.Remove.location == "room"
   then
 		IRE.core.room.removeInventoryItem(gmcp.Char.Items.Remove.item)
     raiseEvent("IRE.core.room.inventoryRemove",gmcp.Char.Items.Remove.item)
@@ -1142,10 +1143,6 @@ end</script>
 			</ScriptGroup>
 		</ScriptGroup>
 	</ScriptPackage>
-<<<<<<< HEAD
-=======
-
->>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
 	<KeyPackage>
 		<KeyGroup isActive="yes" isFolder="yes">
 			<name>NumpadNavigation</name>
@@ -1238,13 +1235,8 @@ raiseEvent("IRE.NumpadNavigation.attemptMove","ne")</script>
 			<Key isActive="yes" isFolder="no">
 				<name>Keybinding +</name>
 				<packageName></packageName>
-<<<<<<< HEAD
 				<script>send("down")
 raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
-=======
-				<script>send("up")
-raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
->>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
 				<command></command>
 				<keyCode>43</keyCode>
 				<keyModifier>536870912</keyModifier>
@@ -1252,13 +1244,8 @@ raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
 			<Key isActive="yes" isFolder="no">
 				<name>Keybinding -</name>
 				<packageName></packageName>
-<<<<<<< HEAD
 				<script>send("up")
 raiseEvent("IRE.NumpadNavigation.attemptMove","up")</script>
-=======
-				<script>send("down")
-raiseEvent("IRE.NumpadNavigation.attemptMove","down")</script>
->>>>>>> f4014bd08e7cdb347239a49fa64d4c6dd4a26a2c
 				<command></command>
 				<keyCode>45</keyCode>
 				<keyModifier>536870912</keyModifier>
